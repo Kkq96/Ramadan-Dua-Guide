@@ -9,46 +9,22 @@
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
     <meta name="theme-color" content="#000000">
 
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
     <style>
         body { margin: 0; padding: 0; background: #f8f8f8; text-align: center; }
-        #pdf-container { width: 100%; display: flex; justify-content: center; flex-wrap: wrap; }
-        canvas { margin: 10px auto; }
+        #pdf-container { width: 100%; height: 100vh; }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
     <h1>Ramadan Dua Guide</h1>
-    <div id="pdf-container"></div>
+    <div id="pdf-container">
+        <!-- Embed the PDF directly in an iframe -->
+        <iframe src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/Kkq96/Ramadan-Dua-Guide/main/Ramadan_Dua_Guide_KA.pdf&embedded=true" 
+            frameborder="0">
+        </iframe>
+    </div>
 
     <script>
-        // PDF.js setup
-        const url = 'Ramadan_Dua_Guide_KA.pdf';
-
-        pdfjsLib.getDocument(url).promise.then(pdf => {
-            let pdfContainer = document.getElementById('pdf-container');
-            // Scale the PDF based on the device's screen size, adjusting the viewport to fit the width
-            const scale = window.innerWidth / 800;  // Adjust based on the initial width (e.g., 800px for desktop)
-
-            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                pdf.getPage(pageNum).then(page => {
-                    let canvas = document.createElement("canvas");
-                    pdfContainer.appendChild(canvas);
-                    let context = canvas.getContext("2d");
-                    let viewport = page.getViewport({ scale: scale });
-
-                    // Set canvas width and height based on the viewport
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
-
-                    page.render({ canvasContext: context, viewport: viewport });
-                });
-            }
-        }).catch(error => {
-            console.error("Error loading PDF:", error);
-        });
-
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
             .then(reg => console.log('Service Worker registered:', reg.scope))
