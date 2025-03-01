@@ -8,13 +8,37 @@
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
     <meta name="theme-color" content="#000000">
+    <script type="module">
+        import { getDocument } from './pdf.mjs';
+
+        const url = 'Ramadan_Dua_Guide_KA.pdf';
+
+        getDocument(url).promise.then(pdf => {
+            let pdfContainer = document.getElementById('pdf-container');
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                pdf.getPage(pageNum).then(page => {
+                    let canvas = document.createElement("canvas");
+                    pdfContainer.appendChild(canvas);
+                    let context = canvas.getContext("2d");
+                    let viewport = page.getViewport({ scale: 1.5 });
+
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    page.render({ canvasContext: context, viewport: viewport });
+                });
+            }
+        });
+    </script>
     <style>
-        body { margin: 0; padding: 0; text-align: center; background: #f8f8f8; }
-        embed { width: 100vw; height: 100vh; border: none; }
+        body { margin: 0; padding: 0; background: #f8f8f8; text-align: center; }
+        canvas { display: block; margin: 10px auto; }
     </style>
 </head>
 <body>
-    <embed src="Ramadan_Dua_Guide_KA.pdf" type="application/pdf">
+    <h1>Ramadan Dua Guide</h1>
+    <div id="pdf-container"></div>
+
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
