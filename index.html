@@ -28,7 +28,8 @@
 
         pdfjsLib.getDocument(url).promise.then(pdf => {
             let pdfContainer = document.getElementById('pdf-container');
-            const scale = window.innerWidth < 600 ? 1.2 : 1.5;  // Adjust scaling for mobile vs desktop
+            // Scale the PDF based on the device's screen size, adjusting the viewport to fit the width
+            const scale = window.innerWidth / 800;  // Adjust based on the initial width (e.g., 800px for desktop)
 
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 pdf.getPage(pageNum).then(page => {
@@ -37,6 +38,7 @@
                     let context = canvas.getContext("2d");
                     let viewport = page.getViewport({ scale: scale });
 
+                    // Set canvas width and height based on the viewport
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
 
