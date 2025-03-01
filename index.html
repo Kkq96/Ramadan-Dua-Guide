@@ -9,11 +9,13 @@
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
     <meta name="theme-color" content="#000000">
     <script type="module">
-        import { getDocument } from './pdf.mjs';
+        import * as pdfjsLib from './pdf.mjs';
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = './pdf.worker.mjs';
 
         const url = './Ramadan_Dua_Guide_KA.pdf';
 
-        getDocument(url).promise.then(pdf => {
+        pdfjsLib.getDocument(url).promise.then(pdf => {
             let pdfContainer = document.getElementById('pdf-container');
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 pdf.getPage(pageNum).then(page => {
@@ -28,6 +30,8 @@
                     page.render({ canvasContext: context, viewport: viewport });
                 });
             }
+        }).catch(error => {
+            console.error("Error loading PDF:", error);
         });
     </script>
     <style>
