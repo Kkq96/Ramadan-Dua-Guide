@@ -11,7 +11,7 @@
     <script type="module">
         import { getDocument } from './pdf.mjs';
 
-        const url = 'Ramadan_Dua_Guide_KA.pdf';
+        const url = './Ramadan_Dua_Guide_KA.pdf';
 
         getDocument(url).promise.then(pdf => {
             let pdfContainer = document.getElementById('pdf-container');
