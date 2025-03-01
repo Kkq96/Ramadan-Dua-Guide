@@ -3,7 +3,7 @@ self.addEventListener('install', (event) => {
         caches.open('pdf-cache').then((cache) => {
             return cache.addAll([
                 'index.html',
-                'https://github.com/Kkq96/Ramadan-Dua-Guide/blob/main/docs/Ramadan_Dua_Guide_KAA.pdf'
+                'https://github.com/Kkq96/Ramadan-Dua-Guide/blob/main/docs/Ramadan_Dua_Guide_KA.pdf'
             ]);
         })
     );
